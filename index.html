@@ -132,7 +132,7 @@
     </div>
 
     <script>
-const WACZ_URL = 'https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev';
+const WACZ_URL = 'https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev/rswblog-archive-2025.wacz';
 
 function loadArchive() {
     if (!WACZ_URL || WACZ_URL.includes('https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev')) {
@@ -144,7 +144,7 @@ function loadArchive() {
     const loading = document.getElementById('loading');
 
     const replayUrl = `https://replayweb.page/replay/?source=${encodeURIComponent(WACZ_URL)}&embed=replayonly`;
-    iframe.src = replayUrl;
+document.getElementById('replay-iframe').src = replayUrl;
 
     setTimeout(() => {
         loading.style.display = 'none';
