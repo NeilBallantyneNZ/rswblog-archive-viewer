@@ -132,14 +132,10 @@
     </div>
 
     <script>
-        // IMPORTANT: Replace this URL with your actual R2 public URL
-        
-    const WACZ_URL = 'https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev/rswblog-archive-2025.wacz';
-        
-        // Example: const WACZ_URL = 'https://pub-xxxxx.r2.dev/rswblog-archive-2025.wacz';
-        
-      function loadArchive() {
-    if (WACZ_URL === 'https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev/rswblog-archive-2025.wacz') {
+const WACZ_URL = 'https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev/rswblog-archive-2025.wacz';
+
+function loadArchive() {
+    if (WACZ_URL === 'https://pub-9129e4ace37c47eb87cf7f344b693254.r2.dev') {
         alert(
             'Configuration Required:\n\n' +
             'Please update the WACZ_URL in this HTML file with your Cloudflare R2 public URL.\n\n' +
@@ -148,55 +144,47 @@
         return;
     }
 
-    // Continue loading archive...
+    const iframe = document.getElementById('replay-iframe');
+    const loading = document.getElementById('loading');
+
+    const replayUrl = `https://replayweb.page/replay/?source=${encodeURIComponent(WACZ_URL)}&embed=replayonly`;
+    iframe.src = replayUrl;
+
+    setTimeout(() => {
+        loading.style.display = 'none';
+        iframe.style.display = 'block';
+    }, 1000);
+
+    iframe.onerror = () => {
+        showError(
+            'Failed to Load Archive',
+            'There was a problem loading the web archive.',
+            'Please check that the WACZ file URL is correct and accessible.'
+        );
+    };
 }
-            
-            const iframe = document.getElementById('replay-iframe');
-            const loading = document.getElementById('loading');
-            
-            // Build ReplayWeb.page URL with embedded mode
-            const replayUrl = `https://replayweb.page/replay/?source=${encodeURIComponent(WACZ_URL)}&embed=replayonly`;
-            
-            iframe.src = replayUrl;
-            
-            // Show iframe after a brief delay
-            setTimeout(() => {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-            }, 1000);
-            
-            // Handle iframe load errors
-            iframe.onerror = () => {
-                showError(
-                    'Failed to Load Archive',
-                    'There was a problem loading the web archive.',
-                    'Please check that the WACZ file URL is correct and accessible.'
-                );
-            };
-        }
-        
-        function showError(title, message, details) {
-            const loading = document.getElementById('loading');
-            const errorContainer = document.getElementById('error-container');
-            
-            loading.style.display = 'none';
-            errorContainer.style.display = 'block';
-            errorContainer.innerHTML = `
-                <div class="error">
-                    <h2>${title}</h2>
-                    <p>${message}</p>
-                    ${details ? `<p>${details}</p>` : ''}
-                    <p style="margin-top: 20px;">
-                        <strong>Alternative:</strong> You can download the WACZ file directly from 
-                        <a href="https://archive.org/details/rswblog-archive-2025">Internet Archive</a> 
-                        and view it using the <a href="https://replayweb.page">ReplayWeb.page desktop app</a>.
-                    </p>
-                </div>
-            `;
-        }
-        
-        // Start loading when page is ready
-        window.addEventListener('load', loadArchive);
-    </script>
+
+function showError(title, message, details) {
+    const loading = document.getElementById('loading');
+    const errorContainer = document.getElementById('error-container');
+
+    loading.style.display = 'none';
+    errorContainer.style.display = 'block';
+    errorContainer.innerHTML = `
+        <div class="error">
+            <h2>${title}</h2>
+            <p>${message}</p>
+            ${details ? `<p>${details}</p>` : ''}
+            <p style="margin-top: 20px;">
+                <strong>Alternative:</strong> You can download the WACZ file directly from 
+                <a href="https://archive.org/details/rswblog-archive-2025">Internet Archive</a> 
+                and view it using the <a href="https://replayweb.page">ReplayWeb.page desktop app</a>.
+            </p>
+        </div>
+    `;
+}
+
+window.addEventListener('load', loadArchive);
+</script>
 </body>
 </html>
